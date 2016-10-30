@@ -7,16 +7,20 @@ import prodConfig from './config/setup/prod'
 import { NODE_ENV, PORT } from './config/env'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
+import session from 'express-session'
+import passport from 'passport'
 
 dotenv.config();
 // update in .env file for new projects
 const url = process.env.MONGO_HOST;
 
+import mongoose from 'mongoose'
 import mongodb from 'mongodb'
 const MongoClient = mongodb.MongoClient;
 
 import authRoutes from './routes/auth-routes'
 import apiRoutes from './routes/api-routes'
+import passportRoutes from './routes/passport'
 
 const app = express();
 
@@ -30,18 +34,21 @@ if (NODE_ENV === 'development') {
 }
 
 // test connection to database
-MongoClient.connect(url, (err, db) => {
-	
-	assert.equal(null, err);
-	console.log('Connection to MongoDB Established');
-
-	db.close();
-});
+mongoose.Promise = global.Promise
+mongoose.connect(url, () => { console.log('connected through mongoose') });
 
 app.use(express.static('dist/client'));
 
+app.use(session({secret: 'anystringoftext',
+				 saveUninitialized: true,
+				 resave: true}));
+
+app.use(passport.initialize());
+app.use(passport.session()); 
+
 // connect authentication routes
 app.use(authRoutes);
+app.use(passportRoutes);
 
 app.use(fallback(path.join(__dirname, '../../dist/client/index.html')));
 

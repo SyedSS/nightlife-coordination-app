@@ -70,6 +70,8 @@
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.5",
     "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-twitter": "^1.0.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",

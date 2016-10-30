@@ -10,21 +10,14 @@ import { browserHistory, Link } from 'react-router'
 class About extends React.Component {
 	 constructor(props) {
     super(props);
-    this.navigateCounter = this.navigateCounter.bind(this);
-  }
-  navigateCounter() {
-
-    if (this.props.isAuthenticated) {
-      browserHistory.push('/counter');
-    }
   }
  	render() {
  		return (
 		  <div className = 'aboutWrapper'>
-		    <h1>Welcome to the Free Code Camp Voting App</h1>
+		    <h1>Welcome to the Free Code Camp Nightlife Coordination App</h1>
 
 		    { !this.props.isAuthenticated && <div>
-		    	<h3>Please <Link to = '/login'>login</Link> or <Link to = '/signup'>sign up</Link> to add new polls, or you can <Link to = '/view-polls'>view the current polls</Link> and start voting now.</h3>
+		    	<h3>Please <Link to = '/login'>login</Link> or <Link to = '/signup'>sign up</Link> to view local bars in your area and mark that you are attending.</h3>
 		    </div> }
 
 				{ this.props.isAuthenticated && <div>

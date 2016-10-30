@@ -33,6 +33,30 @@ function loginError(error) {
   }
 }
 
+export function checkLogin() {
+  return dispatch => {
+    return axios.get('http://localhost:3000/check-auth').then ((res) => {
+      if (res.status === 201) {
+
+          const user = res.data;
+
+          // If login was successful, set the token in local storage
+          localStorage.setItem('user', user.user)
+          localStorage.setItem('id_token', user.id_token)
+
+          // Dispatch the success action
+          dispatch(receiveLogin(user))
+
+          browserHistory.push('/');
+        }
+      }).catch(err => { 
+        console.log('You are not authenticated', err.response.data);
+        dispatch(loginError(err.response.data));
+        })
+    }
+  }
+
+
 // Calls the API to get a token and dispatches actions along the way
 export function loginUser(creds) {
  

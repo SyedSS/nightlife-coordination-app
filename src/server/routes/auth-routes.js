@@ -88,6 +88,18 @@ app.post('/register', function(req, res) {
 
 });
 
+app.post('/check-auth', function(req, res) {
+  console.log('check-auth route', req.user)
+  if (req.session !== undefined) {
+    res.status(201).send({
+      username: req.session.username,
+      id_token: createToken(req.session.username)
+    });
+  } else {
+    res.status(401).send('Not authorized')
+  }
+})
+
 // Handle user login
 app.post('/sessions/create', function(req, res) {
 

@@ -8,6 +8,7 @@ import { NODE_ENV, PORT } from './config/env'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import session from 'express-session'
+import cookieParser from 'cookie-parser'
 import passport from 'passport'
 
 dotenv.config();
@@ -39,12 +40,16 @@ mongoose.connect(url, () => { console.log('connected through mongoose') });
 
 app.use(express.static('dist/client'));
 
+app.use(cookieParser('anystringoftext'));
 app.use(session({secret: 'anystringoftext',
 				 saveUninitialized: true,
 				 resave: true}));
 
 app.use(passport.initialize());
 app.use(passport.session()); 
+
+passport.serializeUser(function(user, done) { done(null, user) });
+passport.deserializeUser(function(user, done) { done(null, user) });
 
 // connect authentication routes
 app.use(authRoutes);

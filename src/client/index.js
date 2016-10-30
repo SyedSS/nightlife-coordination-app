@@ -9,7 +9,7 @@ import thunkMiddleware from 'redux-thunk'
 import configureStore from './store/configureStore'
 import './theme/index.scss'
 
-const store = configureStore();
+export const store = configureStore();
 
 //console.log(store.getState());
 

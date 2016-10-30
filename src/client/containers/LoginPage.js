@@ -74,6 +74,8 @@ class LoginPage extends React.Component {
           Login
         </button>
 
+        <button><a href="/auth/github">Login with Github</a></button>
+
       </div>
     );
   }

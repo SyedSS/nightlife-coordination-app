@@ -31,7 +31,6 @@ function addNewUser(userProfile) {
 
     db.close();
   });
-
 };
 
 // Register new user

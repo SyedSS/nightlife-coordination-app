@@ -74,7 +74,11 @@ class LoginPage extends React.Component {
           Login
         </button>
 
-        <button><a href="/auth/github">Login with Github</a></button>
+        <br />
+
+        <button className = 'twitterAuth'><a href="/auth/twitter">Sign in with Twitter</a></button>
+
+        <button className = 'githubAuth'><a href="/auth/github">Sign in with Github</a></button>
 
       </div>
     );

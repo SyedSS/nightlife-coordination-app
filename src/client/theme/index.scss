@@ -19,22 +19,23 @@ body {
 
 .aboutWrapper {
 	h1 {
-		font-size: 45px;
+		font-size: 36px;
 		width: 65vw;
 		margin: 35px auto 0 auto;
 		padding-bottom: 15px;
 		border-bottom: 3px solid $blue;
 	}
 	h2 {
-		font-size: 45px;
+		font-size: 32px;
 	}
 	p {
-		width: 55vw;
+		width: 50vw;
 		margin: auto;
+		font-size: 26px;
 	}
 	h3 {
-		width: 55vw;
-		font-size: 32px;
+		width: 65vw;
+		font-size: 28px;
 		margin-left: auto;
 		margin-right: auto;
 	}
@@ -98,97 +99,31 @@ body {
 		border: 1px solid rgba(20,20,20,0.25);
 		background: white;
 		margin: 25px;
+		font-family: 'Proza Libre', serif;
 	}
 	button:hover {
 		cursor: pointer;
 		background: rgba(220,220,220,0.2);
 	}
-}
-
-
-@media only screen and (max-width: 750px) {
-	.viewPollsContainer {
-		padding-top: 15px;
-		padding-bottom: 15px;
-		.pollWrapper {
-			h2 {
-				margin: 5px auto 15px auto;
-				font-size: 30px
-			}
-			padding: 25px;
-			margin: 10px auto;
-			width: 85vw;
-			button {
-				font-size: 18px;
-				padding: 8px 4px;
-				margin: 6px;
-				width: 35vw;
-			}
-			.optionContainer {
-				.option {
-					width: 80vw;
-					margin: 5px auto;
-					padding: 6px;
-					font-size: 24px;
-				}
-			}
-			.addOptionWrapper {
-				h1 {
-					font-size: 28px;
-				}
-				input {
-					width: 80vw;
-					font-size: 22px;
-					padding: 6px;
-					margin-top: 5px;
-					margin-bottom: 5px;
-					margin-left: 0px;
-				}
-				.addOptionBtn {
-					width: 50vw;
-					font-size: 20px;
-					margin: 5px;
-				}
-			}
+	.twitterAuth {
+		margin-top: 6px;
+		background: #5E9CFF;
+		a, a:visited {
+			color: black;
 		}
 	}
-	.myPollsContainer {
-		padding-top: 15px;
-		h1 {
-			font-size: 32px;
-		}
-		.pollItemWrapper {
-			padding: 15px;
-			padding-right: 50px;
-			margin: 10px auto;
-			width: 80vw;
-			.pollItem {
-				padding-right: 40px;
-				h2 {
-					margin: 0;
-					font-size: 24px;
-				}
-				.optionsWrapper {
-					position: absolute;
-					right: 5px;
-					top: 7px;
-					.infoOption, .removeOption {
-						font-size: 40px;
-					}
-				}
-			}
+	.twitterAuth:hover {
+		background: #85B4FF;
+	}
+	.githubAuth {
+		margin-top: 6px;
+		background: #64FFA7;
+		a, a:visited {
+			color: black;
 		}
 	}
-	.chartWrapper {
-		margin-top: 8px;
-		margin-bottom: 12px;
-		border-top: 1px solid black;
-		h1 {
-			font-size: 28px;
-		}
-		.twitterBtn {
-			margin-left: 7px;
-		}
+	.githubAuth:hover {
+		background: #16F88B;
 	}
 }
 
@@ -262,3 +197,11 @@ body {
 		}
 	}
 }
+
+
+
+
+
+
+
+

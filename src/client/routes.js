@@ -4,24 +4,13 @@ import App from './containers/App'
 import About from './components/About'
 import LoginPage from './containers/LoginPage'
 import SignupPage from './containers/SignupPage'
-import Account from './containers/Account'
-
-import { store } from './index'
-
-import { checkLogin } from './actions/login'
-
-// const checkAuth = (nextState, replace) => {
-//   store.dispatch(checkLogin());
-//   // const {login} = store.getState();
-//   // if (!login.isAuthenticated)
-//   //   replace('/login');
-// };
+import PassportAuth from './containers/PassportAuth'
 
 export default (
   <Route name = 'home' component = {App}>
   	<Route path = '/' name = 'about' component = {About} />
   	<Route path = 'login' name = 'login' component = {LoginPage} />
   	<Route path = 'signup' name = 'signup' component = {SignupPage} />
-  	<Route path = 'account' name = 'account' component = {Account} />
+  	<Route path = 'account' name = 'account' component = {PassportAuth} />
   </Route>
 );

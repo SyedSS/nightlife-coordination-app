@@ -12,12 +12,10 @@ import cookieParser from 'cookie-parser'
 import passport from 'passport'
 
 dotenv.config();
-// update in .env file for new projects
+
 const url = process.env.MONGO_HOST;
 
 import mongoose from 'mongoose'
-import mongodb from 'mongodb'
-const MongoClient = mongodb.MongoClient;
 
 import authRoutes from './routes/auth-routes'
 import apiRoutes from './routes/api-routes'
@@ -25,33 +23,23 @@ import passportRoutes from './routes/passport'
 
 const app = express();
 
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'example.com');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-
-    next();
-}
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 if (NODE_ENV === 'development') { devConfig(app) } else { prodConfig(app) }
 
 // test connection to database
-mongoose.Promise = global.Promise
+//mongoose.Promise = global.Promise
 mongoose.connect(url, () => { console.log('connected through mongoose') });
 
 app.use(express.static('dist/client'));
 
-app.use(cookieParser('keyboard cat'));
+app.use(cookieParser('super secret key'));
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
+  secret: 'super secret key',
+  resave: true,
   saveUninitialized: true
-}))
-
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -63,7 +51,7 @@ passport.deserializeUser(function(user, done) {
 	done(null, user)
 });
 
-// connect authentication routes
+// connect authentication and api routes
 app.use(authRoutes);
 app.use(passportRoutes);
 

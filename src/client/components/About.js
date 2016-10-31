@@ -5,9 +5,6 @@ import { browserHistory, Link } from 'react-router'
 @connect(
 	state => ({
 		isAuthenticated: state.auth.isAuthenticated
-	}),
-	dispatch => ({
-
 	})
 )
 class About extends React.Component {

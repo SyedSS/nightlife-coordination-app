@@ -54,23 +54,27 @@ function isLoggedIn(req, res, next) {
     res.redirect('/');
 }
 
-app.get('/check-auth', isLoggedIn, function(req, res) {
-
-  res.status(201).send({
-      username: req.session.username,
-      id_token: createToken(req.session.username)
-  });
-
-});
-
 app.get('/auth/github', passport.authenticate('github'));
 
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
-    // Successful authentication, redirect home.
-		res.redirect('/');
+    // Successful authentication, redirect
+    console.log(req.user);
+		res.redirect('/account');
+});
+
+app.post('/verify', function(req, res){
+	console.log('verify:', req.user)
+	if (req.isAuthenticated()) {
+	   res.status(201).send({
+      id_token: createToken(req.user.username),
+      user: req.user.username
   });
+	} else{
+	 res.redirect('/login');
+	}
+ });
 
 app.get('/logout', function(req, res){
   req.logout();

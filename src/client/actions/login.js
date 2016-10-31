@@ -33,9 +33,9 @@ function loginError(error) {
   }
 }
 
-export function checkLogin() {
+export function checkAuth() {
   return dispatch => {
-    return axios.get('http://localhost:3000/check-auth').then ((res) => {
+    return axios.post('http://127.0.0.1:3000/verify').then ( (res) => {
       if (res.status === 201) {
 
           const user = res.data;

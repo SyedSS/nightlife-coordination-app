@@ -22,7 +22,11 @@ const yelp = new Yelp({
 });
 
 app.post('/api/yelp', (req, res) => {
+	
 	const { query } = req.body;
+
+	// check id in database and update search
+
 		yelp.search({ location: query, category_filter: 'bars' })
 		.then(function (data) {
 		  console.log('Successful response from Yelp!');

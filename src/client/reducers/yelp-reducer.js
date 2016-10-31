@@ -19,7 +19,6 @@ const yelp = (state = defaultState, action) => {
 			});
 		
 		case HANDLE_SEARCH_RESULTS:
-			console.log('action data:', action.data);
 			return Object.assign({}, state, {
 				isSearching: false,
 				data: action.data

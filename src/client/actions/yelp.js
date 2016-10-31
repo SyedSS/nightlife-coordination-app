@@ -19,10 +19,12 @@ export function submitSearch() {
 
 export function searchYelp(query) {
 	return dispatch => 	{
+		// save user's search in local storage
+		localStorage.setItem('nightlife', query);
 		dispatch(submitSearch());
-		return axios.post('/api/yelp', {query: query}).then ( (response) => {
+		return axios.post('/api/yelp', { query: query }).then ( (response) => {
 			console.log('Data received on client:', response.data);
-			dispatch(handleSearchResults(response.data));
+			dispatch(handleSearchResults(response.data.data));
 		});
 	}
 }

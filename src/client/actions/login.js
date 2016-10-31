@@ -42,6 +42,7 @@ export function checkAuth() {
 
           // If login was successful, set the token in local storage
           localStorage.setItem('user', user.user)
+          localStorage.setItem('user_id', user.id)
           localStorage.setItem('id_token', user.id_token)
 
           // Dispatch the success action
@@ -72,6 +73,7 @@ export function loginUser(creds) {
 
           // If login was successful, set the token in local storage
           localStorage.setItem('user', user.user)
+          localStorage.setItem('user_id', user.id)
           localStorage.setItem('id_token', user.id_token)
 
           // Dispatch the success action

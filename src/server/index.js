@@ -29,27 +29,27 @@ app.use(bodyParser.json());
 if (NODE_ENV === 'development') { devConfig(app) } else { prodConfig(app) }
 
 // test connection to database
-//mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise
 mongoose.connect(url, () => { console.log('connected through mongoose') });
 
 app.use(express.static('dist/client'));
 
-app.use(cookieParser('super secret key'));
+const secretString = process.env.SECRET_STRING;
+
+app.use(cookieParser(secretString));
 app.use(session({
   secret: 'super secret key',
   resave: true,
+  secure: false,
   saveUninitialized: true
 }));
 
+// setup passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-	done(null, user)
-});
-passport.deserializeUser(function(user, done) {
-	done(null, user)
-});
+passport.serializeUser(function(user, done) { done(null, user) });
+passport.deserializeUser(function(user, done) { done(null, user) });
 
 // connect authentication and api routes
 app.use(authRoutes);

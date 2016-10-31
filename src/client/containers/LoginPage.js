@@ -34,11 +34,10 @@ class LoginPage extends React.Component {
   }
   submitLogin() {
 
-    const username = this.state.username;
-    const password = this.state.password;
+    const { email, password } = this.state;
 
-    if (username !== '' && password !== '') {
-      const creds = { username: username.trim(), password: password.trim() }
+    if (email !== '' && password !== '') {
+      const creds = { email: email.trim(), password: password.trim() }
       // dispatch login action 
       this.props.loginActions.loginUser(creds);
     }

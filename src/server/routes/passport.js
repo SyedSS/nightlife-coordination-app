@@ -18,30 +18,38 @@ passport.use(new GitHubStrategy({
     callbackURL: "http://127.0.0.1:3000/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-        User.findOne({
-            id: profile.emails[0].value 
-        }, function(err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                user = new User({
-                    id: profile.emails[0].value,
-                    displayName: profile.displayName,
-                    username: profile.username,
-                    password: '',
-                    githubId: profile.id,
-                    twitterId: ''
-                });
-                user.save(function(err) {
-                    if (err) console.log(err);
-                    return done(err, user);
-                });
-            } else {
-                console.log('user,', user);
-                return done(err, user);
-            }
+    // search for user in database base on id = GitHub email address as unique identification
+    User.findOne({ id: profile.emails[0].value }, function(err, user) {
+      // handle error
+      if (err) { return done(err) }
+      // if there is no user with this email, create a new one
+      if (!user) {
+        user = new User({
+            id: profile.emails[0].value,
+            displayName: profile.displayName,
+            username: profile.username,
+            password: '',
+            githubId: profile.id,
+            twitterId: '',
+            userData: []
         });
+        user.save(function(err) {
+            if (err) console.log(err);
+            return done(err, user);
+        });
+      // if user already has an account with this email, add their github ID  
+      } else if (profile.emails[0].value === user.id) {
+        user.githubId = profile.id
+        user.save(function(err) {
+            if (err) console.log(err);
+            return done(err, user);
+        });
+      // user has logged in before, return user and proceed
+      } else {
+          console.log('user,', user);
+          return done(err, user);
+      }
+    });
    }
 ));
 
@@ -56,39 +64,38 @@ app.get('/auth/github/callback',
 		res.redirect('/account');
 });
 
-
-// define GitHub strategy
+// define Twitter strategy
 passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTER_KEY,
     consumerSecret: process.env.TWITTER_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
+    callbackURL: "/auth/twitter/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile)
-        User.findOne({
-            id: profile.emails[0].value 
-        }, function(err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                user = new User({
-                    id: profile.emails[0].value,
-                    displayName: profile.displayName,
-                    username: profile.username,
-                    password: '',
-                    githubId: '',
-                    twitterId: profile.id,
-                });
-                user.save(function(err) {
-                    if (err) console.log(err);
-                    return done(err, user);
-                });
-            } else {
-                console.log('user,', user);
-                return done(err, user);
-            }
+    // search database based on twitter profile ID because twitter API does not provide email
+    User.findOne({ twitterId: profile.id }, function(err, user) {
+      //handle error
+      if (err) { return done(err) }
+      // if user has not logged in through twitter before, create a new user        
+      if (!user) {
+        user = new User({
+            id: '',
+            displayName: profile.displayName,
+            username: profile.username,
+            password: '',
+            githubId: '',
+            twitterId: profile.id,
+            userData: []
         });
+        user.save(function(err) {
+          if (err) console.log(err);
+          return done(err, user);
+        });
+      // if user has logged in through twitter before, let them proceed 
+      } else {
+          console.log('user,', user);
+          return done(err, user);
+      }
+    });
    }
 ));
 
@@ -96,22 +103,22 @@ passport.use(new TwitterStrategy({
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
 // Twitter callback
-app.get('localhost:3000/auth/twitter/callback', 
+app.get('/auth/twitter/callback/', 
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect to for client to continue auth process
     res.redirect('/account');
 });
 
-
-
-// client verifies auth flow are receives jwt token in response or redirects to login page otherwise
+// client verifies auth flow from passport redirect are receives jwt token in response or redirects to login page otherwise
 app.post('/verify', function(req, res){
+  // if user is authenticated send them a jwt token
   if (req.isAuthenticated()) {
      res.status(201).send({
       id_token: createToken(req.user.username),
       user: req.user.username
   });
+  // if session is not authenticated redirect to login
   } else { res.redirect('/login') }
  });
 

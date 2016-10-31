@@ -21,7 +21,7 @@ class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: ''
     }
     this.handleInput = this.handleInput.bind(this);
@@ -56,10 +56,10 @@ class LoginPage extends React.Component {
 
         <input
           type = 'text'
-          name = 'username'
+          name = 'email'
           className = "loginInput"
-          placeholder = 'Username'
-          value = {this.state.username}
+          placeholder = 'Email Address'
+          value = {this.state.email}
           onChange = {this.handleInput} />
 
         <input

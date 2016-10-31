@@ -8,6 +8,8 @@ import dotenv from 'dotenv'
 import Validator from 'validator'
 import validateUser from '../shared/validateUser'
 
+import User from '../models/users'
+
 dotenv.config();
 const url = process.env.MONGO_HOST;
 
@@ -34,70 +36,127 @@ function addNewUser(userProfile) {
 };
 
 // Register new user
-app.post('/register', function(req, res) {
+// app.post('/register', function(req, res) {
 
+//   const user = req.body;
+//   console.log('New registration received on server:', user);
+
+//   const validation = validateUser(user)
+
+//   // Check if the user submitted all the fields correctly
+//   if (validation.isValid) {
+
+//       MongoClient.connect(url, (err, db) => {
+//         assert.equal(null, err);
+
+//         // Check to see if any user already exists with this username
+//         db.collection('users').findOne({ username: user.username }).then( (response) => {
+
+//           if (response === null) {
+            
+//             // hash password for storage
+//             const passwordDigest = bcrypt.hashSync(user.password, 10);
+
+//             const profile = {
+//               username: user.username,
+//               email: user.email,
+//               password: passwordDigest,
+//               userData: {}
+//             }
+
+//             addNewUser(profile);
+
+//             res.status(201).send({
+//               username: user.username,
+//               id_token: createToken(user.username)
+//             });
+
+//           }
+//           else { res.status(400).send('This username already exists') }
+
+//         });
+
+//         db.close();
+
+//       })
+
+//   }
+//   // if user submission was invalid return errors to the client
+  // else {
+  //   console.log('Invalid Registration:', validation.errors);
+  //   res.status(400).send('Registration was in valid:', validation.errors);
+  // }
+
+// });
+
+
+app.post('/register', function(req, res) {
   const user = req.body;
   console.log('New registration received on server:', user);
-
   const validation = validateUser(user)
-
   // Check if the user submitted all the fields correctly
   if (validation.isValid) {
-
-      MongoClient.connect(url, (err, db) => {
-        assert.equal(null, err);
-
-        // Check to see if any user already exists with this username
-        db.collection('users').findOne({ username: user.username }).then( (response) => {
-
-          if (response === null) {
-            
-            // hash password for storage
-            const passwordDigest = bcrypt.hashSync(user.password, 10);
-
-            const profile = {
-              username: user.username,
-              email: user.email,
-              password: passwordDigest,
-              userData: {}
+        User.findOne({
+            id: user.email
+        }, function(err, user) {
+            if (err) {
+                return done(err);
             }
-
-            addNewUser(profile);
-
-            res.status(201).send({
-              username: user.username,
-              id_token: createToken(user.username)
-            });
-
-          }
-          else { res.status(400).send('This username already exists') }
-
+            if (!user) {
+                const passwordDigest = bcrypt.hashSync(user.password, 10);
+                user = new User({ 
+                  local: {
+                    id: user.email,
+                    displayName: user.username,
+                    username: user.username,
+                    password: passwordDigest,
+                    githubId: '',
+                    twitterId: ''
+                  }
+                });
+                user.save(function(err) {
+                    if (err) console.log(err);
+                    res.status(201).send({
+                      username: user.username,
+                      id_token: createToken(user.username)
+                    });
+                });
+              } else if (user.password === '') {
+                const passwordDigest = bcrypt.hashSync(user.password, 10);
+                user.password = passwordDigest;
+                user.save(function(err) {
+                    if (err) console.log(err);
+                    res.status(201).send({
+                      username: user.username,
+                      id_token: createToken(user.username)
+                    });
+                });
+              } else {
+                console.log('user,', user);
+                res.status(201).send({
+                    username: user.username,
+                    id_token: createToken(user.username)
+                });
+            }
         });
-
-        db.close();
-
-      })
-
-  }
-  // if user submission was invalid return errors to the client
-  else {
-    console.log('Invalid Registration:', validation.errors);
-    res.status(400).send('Registration was in valid:', validation.errors);
-  }
-
+      }
+      else {
+        console.log('Invalid Registration:', validation.errors);
+        res.status(400).send('Registration was in valid:', validation.errors);
+      }
 });
 
 // Handle user login
 app.post('/sessions/create', function(req, res) {
 
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   MongoClient.connect(url, (err, db) => {
     assert.equal(null, err);
 
     const Users = db.collection('users');
     
-    Users.findOne( { username: username }).then( (data) => {
+    Users.findOne( { id: email }).then( (data) => {
       
       // user does not exist in database
       if (data === null) {

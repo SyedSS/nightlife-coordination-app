@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 import routes from './routes'
 import thunkMiddleware from 'redux-thunk'
 import configureStore from './store/configureStore'
+
+import './theme/bootstrap-social.css'
 import './theme/index.scss'
 
 export const store = configureStore();

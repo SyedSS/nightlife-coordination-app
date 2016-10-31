@@ -50,6 +50,15 @@ class LoginPage extends React.Component {
 
         <h1>Log In Here</h1>
 
+        <div className = 'socialLogin'>
+          <a className = "btn btn-block btn-social btn-twitter" href = "/auth/twitter">
+            <span className = "fa fa-twitter"></span> Sign in with Twitter
+          </a>
+           <a className = "btn btn-block btn-social btn-github" href = "/auth/github">
+            <span className = "fa fa-github"></span> Sign in with GitHub
+          </a>
+        </div>
+
         { errorMessage && <div className = 'errorsBox'>
           <p>{errorMessage}</p></div> }
 
@@ -74,10 +83,6 @@ class LoginPage extends React.Component {
         </button>
 
         <br />
-
-        <button className = 'twitterAuth'><a href="/auth/twitter">Sign in with Twitter</a></button>
-
-        <button className = 'githubAuth'><a href="/auth/github">Sign in with Github</a></button>
 
       </div>
     );

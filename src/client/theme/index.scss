@@ -18,6 +18,7 @@ body {
 }
 
 .aboutWrapper {
+	text-align: center;
 	h1 {
 		font-size: 36px;
 		width: 65vw;
@@ -27,6 +28,7 @@ body {
 	}
 	h2 {
 		font-size: 32px;
+		margin: 25px auto;
 	}
 	p {
 		width: 50vw;
@@ -82,6 +84,7 @@ body {
 .loginForm, .signupForm {
 	width: 600px;
 	margin: auto;
+	padding-top: 8px;
 	h1 {
 		font-size: 45px;
 	}
@@ -105,45 +108,39 @@ body {
 		cursor: pointer;
 		background: rgba(220,220,220,0.2);
 	}
-	.twitterAuth {
-		margin-top: 6px;
-		background: #5E9CFF;
+	.socialLogin {
+		margin: 15px auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
 		a, a:visited {
-			color: black;
+			width: 225px;
+			margin: 5px;
 		}
-	}
-	.twitterAuth:hover {
-		background: #85B4FF;
-	}
-	.githubAuth {
-		margin-top: 6px;
-		background: #64FFA7;
-		a, a:visited {
-			color: black;
-		}
-	}
-	.githubAuth:hover {
-		background: #16F88B;
 	}
 }
 
-@media only screen and (max-width: 600px) {
-	.loginForm, .signupForm {
-		width: 100vw;
-		margin: auto;
+@media only screen and (max-width: 900px) {
+	.aboutWrapper {
 		h1 {
-			font-size: 40px;
+			width: 85vw;
+			font-size: 36px;
+			margin-top: 15px;
 		}
-		input {
-			font-size: 24px;
-			margin: 8px;
-			width: 80vw;
-			padding: 12px 8px;
+		h2 {
+			font-size: 32px;
+			width: 70vw;
 		}
-		button {
+		h3 {
 			font-size: 28px;
-			padding: 8px 16px;
-			margin: 18px;
+			width: 70vw;
+		}
+		p {
+			font-size: 22px;
+			width: 75vw;
+		}
+		.credits {
+			width: 75vw;
 		}
 	}
 }
@@ -176,20 +173,20 @@ body {
 	}
 	.aboutWrapper {
 		h1 {
-			font-size: 33px;
+			width: 85vw;
+			font-size: 28px;
 			margin-top: 15px;
 		}
 		h2 {
-			font-size: 30px;
+			font-size: 22px;
+			width: 80vw;
 		}
 		h3 {
-			font-size: 28px;
+			font-size: 20px;
 			width: 90vw;
 		}
 		p {
-			font-size: 22px;
-		}
-		p {
+			font-size: 16px;
 			width: 85vw;
 		}
 		.credits {
@@ -198,7 +195,36 @@ body {
 	}
 }
 
-
+@media only screen and (max-width: 600px) {
+	.loginForm, .signupForm {
+		width: 100vw;
+		margin: auto;
+		h1 {
+			font-size: 40px;
+		}
+		input {
+			font-size: 24px;
+			margin: 8px;
+			width: 80vw;
+			padding: 12px 8px;
+		}
+		button {
+			font-size: 28px;
+			padding: 8px 16px;
+			margin: 18px;
+		}
+		.socialLogin {
+			margin: 15px auto;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			a, a:visited {
+				width: 225px;
+				margin: 5px auto;
+			}
+		}
+	}
+}
 
 
 

@@ -40,10 +40,12 @@ export function checkAuth() {
 
           const user = res.data;
 
+          console.log(res.data);
+
           // If login was successful, set the token in local storage
-          localStorage.setItem('user', user.user)
-          localStorage.setItem('user_id', user.id)
-          localStorage.setItem('id_token', user.id_token)
+          localStorage.setItem('user', user.user);
+          localStorage.setItem('user_id', user.user_id);
+          localStorage.setItem('id_token', user.id_token);
 
           // Dispatch the success action
           dispatch(receiveLogin(user))
@@ -125,6 +127,7 @@ export function registerUser(user) {
 
       // Successful server response data is saved to local storage      
       localStorage.setItem('user', user.user);
+      localStorage.setItem('user_id', user.email);
       localStorage.setItem('id_token', user.id_token);
 
       // Login success action is dispatched

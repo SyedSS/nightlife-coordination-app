@@ -7,7 +7,8 @@ export const HANDLE_SEARCH_RESULTS = 'HANDLE_SEARCH_RESULTS'
 export function handleSearchResults(results) {
 	return {
 		type: HANDLE_SEARCH_RESULTS,
-		data: results
+		data: results.data,
+		attendance: results.attendance
 	}
 }
 
@@ -23,8 +24,15 @@ export function searchYelp(query) {
 		localStorage.setItem('nightlife', query);
 		dispatch(submitSearch());
 		return axios.post('/api/yelp', { query: query }).then ( (response) => {
-			console.log('Data received on client:', response.data);
-			dispatch(handleSearchResults(response.data.data));
+			dispatch(handleSearchResults(response.data));
 		});
+	}
+}
+
+export function attendBar(data) {
+	return dispatch => {
+		axios.post('/api/attend', data).then( (response) => {
+			dispatch(searchYelp(data.location));
+		}).catch(error => alert(error.response.data));
 	}
 }

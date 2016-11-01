@@ -1,6 +1,7 @@
 $orange: #FF4A1F;
 $pink: #FE0253;
-$blue: #06C1FF;
+//$blue: #06C1FF;
+$blue: #05CDFA;
 
 body {
 	padding: 0;
@@ -20,6 +21,9 @@ body {
 .aboutWrapper {
 	h1 {
 		margin: 45px auto;
+		padding-bottom: 25px;
+		width: 55vw;
+		border-bottom: 3px solid $blue;
 	}
 	a, a:visited {
 		color: rgb(25,25,25);
@@ -30,7 +34,7 @@ body {
 	}
 	.credits {
 	  	width: 55vw;
-	  	margin: 45px auto;
+	  	margin: 35px auto;
 	 }
 }
 
@@ -46,6 +50,7 @@ body {
 	h2 {
 		font-size: 32px;
 		margin: 25px auto;
+		width: 45vw;
 	}
 	p {
 		width: 50vw;
@@ -64,16 +69,17 @@ body {
 		font-size: 28px;
 		margin-left: auto;
 		margin-right: auto;
+		margin-bottom: -5px;
 	}
 	.searchBars {
-	 	margin-top: 15px;
+	 	margin-top: 35px;
 	 	width: 50vw;
 	 	padding: 12px 18px;
 	 	font-size: 20px;
 	}
 	button {
 		font-size: 22px;
-		padding: 12px;
+		padding-top: 8px;
 		margin-left: 12px;
 		border: 1px solid rgba(20,20,20,0.25);
 		background: white;
@@ -129,16 +135,18 @@ body {
 	}
 	button {
 		font-size: 32px;
-		padding: 10px 20px;
-		margin-bottom: 0;
+		width: 175px;
+		height: 55px;
+		padding-top: 5px;
 		border: 1px solid rgba(20,20,20,0.25);
+		border-radius: 7px;
 		background: white;
 		margin: 25px;
 		font-family: 'Proza Libre', serif;
 	}
 	button:hover {
 		cursor: pointer;
-		background: rgba(220,220,220,0.2);
+		background: $blue;
 	}
 	.socialLogin {
 		margin: 15px auto;
@@ -203,6 +211,28 @@ body {
 		  }
 		}
 	}
+	.aboutWrapper {
+		h1 {
+			margin: 45px auto;
+			font-size: 32px;
+			width: 85vw;
+		}
+		h3 {
+			font-size: 22px;
+		}
+		a, a:visited {
+			color: rgb(25,25,25);
+			text-decoration: underline;
+		}
+		a:hover {
+			color: $pink;
+		}
+		.credits {
+		  	width: 85vw;
+		  	margin: 45px auto;
+
+		 }
+	}	
 	.nightlifeWrapper {
 		h1 {
 			width: 85vw;
@@ -223,6 +253,18 @@ body {
 		}
 		.credits {
 			width: 85vw;
+		}
+		.searchBars {
+		 	margin-top: 25px;
+		 	width: 90vw;
+		 	padding: 6px 8px;
+		 	font-size: 16px;
+		}
+		button {
+			width: 65vw;
+			font-size: 22px;
+			padding-top: 8px;
+			margin: 15px auto;
 		}
 	}
 }

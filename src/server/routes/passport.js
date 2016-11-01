@@ -111,11 +111,13 @@ app.get('/auth/twitter/callback/',
 });
 
 // client verifies auth flow from passport redirect are receives jwt token in response or redirects to login page otherwise
-app.post('/verify', function(req, res){
+app.post('/verify', function(req, res) {
+  console.log('user:', req.user.id);
   // if user is authenticated send them a jwt token
   if (req.isAuthenticated()) {
      res.status(201).send({
       id_token: createToken(req.user.username),
+      user_id: req.user.id,
       user: req.user.username
   });
   // if session is not authenticated redirect to login

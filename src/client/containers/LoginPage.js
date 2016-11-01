@@ -52,11 +52,12 @@ class LoginPage extends React.Component {
 
         <div className = 'socialLogin'>
           <a className = "btn btn-block btn-social btn-twitter" href = "/auth/twitter">
-            <span className = "fa fa-twitter"></span> Sign in with Twitter
+            <i className = "fa fa-twitter"></i> Sign in with Twitter
           </a>
            <a className = "btn btn-block btn-social btn-github" href = "/auth/github">
-            <span className = "fa fa-github"></span> Sign in with GitHub
+            <i className = "fa fa-github"></i> Sign in with GitHub
           </a>
+
         </div>
 
         { errorMessage && <div className = 'errorsBox'>

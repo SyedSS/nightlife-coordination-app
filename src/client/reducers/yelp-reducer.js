@@ -5,7 +5,8 @@ import { SEARCH_SUBMITTED, HANDLE_SEARCH_RESULTS } from '../actions/yelp'
 
 const defaultState = {
 	isSearching: false,
-	data: []
+	data: [],
+	attendance: []
 }
 
 const yelp = (state = defaultState, action) => {
@@ -15,13 +16,15 @@ const yelp = (state = defaultState, action) => {
 		case SEARCH_SUBMITTED:
 			return Object.assign({}, state, {
 				isSearching: true,
-				data: []
+				data: [],
+				attendance: []
 			});
 		
 		case HANDLE_SEARCH_RESULTS:
 			return Object.assign({}, state, {
 				isSearching: false,
-				data: action.data
+				data: action.data,
+				attendance: action.attendance
 			});
 		
 		default:

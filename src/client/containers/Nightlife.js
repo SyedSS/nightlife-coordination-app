@@ -80,7 +80,7 @@ class Nightlife extends React.Component {
  					}
  				}
  			}
- 			return false;	
+ 			return false;
  		}
  		const renderResults = this.props.searchResults.map( (bar, idx) => {
  			return (

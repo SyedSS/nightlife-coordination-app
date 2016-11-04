@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { browserHistory } from 'react-router'
 
+import { DEV_HOST, PROD_HOST } from '../constants/host'
+
+const HOST = PROD_HOST;
+
 // There are three possible states for our login process and we need actions for each of them
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
@@ -35,7 +39,7 @@ function loginError(error) {
 
 export function checkAuth() {
   return dispatch => {
-    return axios.post('http://127.0.0.1:3000/verify').then ( (res) => {
+    return axios.post(`${HOST}/verify`).then ( (res) => {
       if (res.status === 201) {
 
           const user = res.data;
@@ -67,7 +71,7 @@ export function loginUser(creds) {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds))
 
-    return axios.post('http://127.0.0.1:3000/sessions/create', creds).then ( (res) => {
+    return axios.post(`${HOST}/sessions/create`, creds).then ( (res) => {
       
       if (res.status === 201) {
 
@@ -118,7 +122,7 @@ export function registerUser(user) {
     dispatch(newSignUp(user))
 
     // Request is made to the server with the registration data
-    return axios.post('http://127.0.0.1:3000/register', user).then( (res) => {
+    return axios.post(`${HOST}/register`, user).then( (res) => {
 
       let user = {
         user: res.data.username,

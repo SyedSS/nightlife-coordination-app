@@ -10,7 +10,6 @@ import validateUser from '../shared/validateUser'
 import User from '../models/users'
 
 const url = process.env.MONGO_HOST;
-
 import mongodb from 'mongodb'
 const MongoClient = mongodb.MongoClient;
 

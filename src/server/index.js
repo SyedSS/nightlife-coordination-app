@@ -11,8 +11,7 @@ import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import passport from 'passport'
 
-dotenv.config();
-
+dotenv.config({silent: true});
 const url = process.env.MONGO_HOST;
 
 import mongoose from 'mongoose'

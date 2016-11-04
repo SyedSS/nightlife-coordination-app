@@ -15,7 +15,7 @@ class PassportAuth extends React.Component {
 	componentWillMount() { this.props.passport() }
 	render() {
 		return (
-			<div></div>
+			<div />
 		);
 	}
 }

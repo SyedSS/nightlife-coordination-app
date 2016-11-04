@@ -58,20 +58,19 @@ app.post('/api/attend', (req, res) => {
 
 	    Bar.findOne({ id: bar_id }, function(err, bar) {
 
-	      //handle error
+	    	let d = new Date();
+	    	const today = d.getDay().toString() + d.getMonth().toString() + d.getYear().toString();
+
+	      // handle error
 	      if (err) { return done(err) }
-	      // if bar doesn't exist, create it and add user to it      
-	      if (!bar) {
-	        bar = new Bar({
-	            id: bar_id,
-	            attendees: [user_id]
-	        });
-	        bar.save(function(err) {
-	          if (err) console.log(err);
-	        });
-        	res.end();
-	      // if bar exists, add user to attendees list
-	      } else {
+				// if the bar exists already
+	      else if (bar) {
+					// if the date added is old, update it and clear the attendees list
+	      	if (bar.date !== today) {
+	      		bar.date = today;
+	      		bar.attendees = [];
+	      	}
+					// check if a user has already signed up
 	      	function checkList(list) {
 		      	for (let i = 0; i < list.length; i++) {
 		      		if (list[i] === user_id) {
@@ -80,6 +79,7 @@ app.post('/api/attend', (req, res) => {
 		      	}
 		      	return true;
 	      	}
+					// add the new attendees to the list
 	      	if (checkList(bar.attendees)) {
 		      	bar.attendees.push(user_id);
 		      	bar.save(function(err) {
@@ -89,6 +89,19 @@ app.post('/api/attend', (req, res) => {
       		} else {
       			res.status(401).send("You can't attend the same bar twice!");
       		}
+	      }
+				// if there is no bar at all create it and add user
+	      else if (!bar) {
+	        bar = new Bar({
+	            id: bar_id,
+	            attendees: [user_id],
+	            date: today
+	        });
+	        bar.save(function(err) {
+	          if (err) console.log(err);
+	        });
+        	res.end();
+
 	      }
 	    });
 		}

@@ -4,7 +4,7 @@ import bodyParser from 'body-parser'
 import jwt from 'jsonwebtoken'
 import secret from '../jwt-config'
 import dotenv from 'dotenv'
-dotenv.config();
+dotenv.config({silent: true});
 
 import Yelp from 'yelp'
 

@@ -71,6 +71,7 @@
     "express-session": "^1.14.2",
     "http": "0.0.0",
     "jsonwebtoken": "^7.1.9",
+    "lodash": "^4.16.6",
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.5",
     "morgan": "^1.7.0",

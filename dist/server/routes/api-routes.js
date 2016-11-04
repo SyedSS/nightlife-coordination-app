@@ -38,7 +38,7 @@ var _mongodb2 = _interopRequireDefault(_mongodb);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_dotenv2.default.config();
+_dotenv2.default.config({ silent: true });
 
 var MongoClient = _mongodb2.default.MongoClient;
 var url = process.env.MONGO_HOST;
@@ -74,7 +74,7 @@ app.post('/api/yelp', function (req, res) {
 		});
 	}).catch(function (err) {
 		console.error(err);
-		res.status(404).send('There was a problem with the search');
+		res.status(404).send('This location could not be found, sorry!');
 	});
 });
 

@@ -46,7 +46,7 @@ app.post('/api/yelp', (req, res) => {
 			  });
 		}).catch(function (err) {
 		  console.error(err);
-		  res.status(404).send('There was a problem with the search');
+		  res.status(404).send('This location could not be found, sorry!');
 		});
 });
 

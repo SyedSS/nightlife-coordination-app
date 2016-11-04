@@ -25,7 +25,7 @@ export function searchYelp(query) {
 		dispatch(submitSearch());
 		return axios.post('/api/yelp', { query: query }).then ( (response) => {
 			dispatch(handleSearchResults(response.data));
-		});
+		}).catch(err => alert(error.response.data));
 	}
 }
 

@@ -1,7 +1,7 @@
 
 import { combineReducers } from 'redux'
 
-import { SEARCH_SUBMITTED, HANDLE_SEARCH_RESULTS } from '../actions/yelp'
+import { SEARCH_SUBMITTED, SEARCH_FAILED, HANDLE_SEARCH_RESULTS } from '../actions/yelp'
 
 const defaultState = {
 	isSearching: false,
@@ -16,6 +16,13 @@ const yelp = (state = defaultState, action) => {
 		case SEARCH_SUBMITTED:
 			return Object.assign({}, state, {
 				isSearching: true,
+				data: [],
+				attendance: []
+			});
+
+		case SEARCH_FAILED:
+			return Object.assign({}, state, {
+				isSearching: false,
 				data: [],
 				attendance: []
 			});

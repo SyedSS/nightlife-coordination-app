@@ -11,6 +11,7 @@ import barStyles from '../theme/bar.scss'
 	state => ({
 		isAuthenticated: state.auth.isAuthenticated,
 		searchResults: state.yelp.data,
+		isSearching: state.yelp.isSearching,
 		currentAttendance: state.yelp.attendance
 	}),
 	dispatch => ({
@@ -21,6 +22,7 @@ import barStyles from '../theme/bar.scss'
 class Nightlife extends React.Component {
 	static propTypes = {
 		isAuthenticated: React.PropTypes.bool.isRequired,
+		isSearching: React.PropTypes.bool.isRequired,
 		searchResults: React.PropTypes.array.isRequired,
 		currentAttendance: React.PropTypes.array.isRequired,
 		searchYelp: React.PropTypes.func.isRequired
@@ -120,7 +122,7 @@ class Nightlife extends React.Component {
 						<h2>Welcome {localStorage.getItem('user')}, here are the results for local bars <strong>{localStorage.getItem('nightlife')}</strong>.
 						To change locations, submit a new search.</h2> }
 
-					{ localStorage.getItem('nightlife') && this.props.searchResults.length === 0 && 
+					{ localStorage.getItem('nightlife') && this.props.isSearching && 
 						<h2>Searching...</h2>}
 
 					{ localStorage.getItem('nightlife') && this.props.searchResults.length > 0 && !this.props.isAuthenticated &&

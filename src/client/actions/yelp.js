@@ -2,6 +2,7 @@
 import axios from 'axios'
 
 export const SEARCH_SUBMITTED = 'SEARCH_SUBMITTED'
+export const SEARCH_FAILED = 'SEARCH_FAILED'
 export const HANDLE_SEARCH_RESULTS = 'HANDLE_SEARCH_RESULTS'
 
 export function handleSearchResults(results) {
@@ -18,6 +19,12 @@ export function submitSearch() {
 	}
 }
 
+export function cancelSearch() {
+	return {
+		type: SEARCH_FAILED
+	}
+}
+
 export function searchYelp(query) {
 	return dispatch => 	{
 		// save user's search in local storage
@@ -25,7 +32,10 @@ export function searchYelp(query) {
 		dispatch(submitSearch());
 		return axios.post('/api/yelp', { query: query }).then ( (response) => {
 			dispatch(handleSearchResults(response.data));
-		}).catch(error => alert(error.response.data));
+		}).catch((error) => {
+			alert(error.response.data);
+			dispatch(cancelSearch());
+		});
 	}
 }
 

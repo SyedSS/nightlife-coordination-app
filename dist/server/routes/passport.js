@@ -42,6 +42,7 @@ _passport2.default.use(new _passportGithub2.default({
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
   callbackURL: process.env.GITHUB_CALLBACK_PROD
 }, function (accessToken, refreshToken, profile, done) {
+  console.log(profile);
   // search for user in database base on id = GitHub email address as unique identification
   _users2.default.findOne({ id: profile.emails[0].value }, function (err, user) {
     // handle error

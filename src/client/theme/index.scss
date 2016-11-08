@@ -1,6 +1,5 @@
 $orange: #FF4A1F;
 $pink: #FE0253;
-//$blue: #06C1FF;
 $blue: #05CDFA;
 
 body {
@@ -94,7 +93,7 @@ body {
 .navigationWrapper {
 	background: rgb(40,40,40);
 	background: #23231A;
-	width: 100vw;
+	width: 100%;
 	.linksWrapper {
 		margin: auto;
 	  display: flex;
@@ -200,7 +199,7 @@ body {
 		  .navLink {
 		  	font-size: 28px;
 		  	margin: 5px;
-		  	width: 100vw;
+		  	width: 100%;
 		  }
 		  button {
 		  	background: none;
@@ -271,7 +270,7 @@ body {
 
 @media only screen and (max-width: 600px) {
 	.loginForm, .signupForm {
-		width: 100vw;
+		width: 100%;
 		margin: auto;
 		h1 {
 			font-size: 40px;

@@ -74,20 +74,25 @@ app.post('/api/attend', (req, res) => {
 	      	function checkList(list) {
 		      	for (let i = 0; i < list.length; i++) {
 		      		if (list[i] === user_id) {
-		      			return false;
+		      			return i;
 		      		}
 		      	}
-		      	return true;
+		      	return 'User absent';
 	      	}
 					// add the new attendees to the list
-	      	if (checkList(bar.attendees)) {
-		      	bar.attendees.push(user_id);
+	      	if (checkList(bar.attendees) === 'User absent') {
+	      		bar.attendees.push(user_id)
 		      	bar.save(function(err) {
 		      		if (err) throw err;
 		      	});
 	      		res.end();
-      		} else {
-      			res.status(401).send("You can't attend the same bar twice!");
+      		} else { 
+
+      			bar.attendees.splice(checkList(bar.attendees), 1);
+		      	bar.save(function(err) {
+		      		if (err) throw err;
+		      	});
+      			res.end()
       		}
 	      }
 				// if there is no bar at all create it and add user

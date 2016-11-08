@@ -103,10 +103,10 @@ app.post('/api/attend', function (req, res) {
 						var checkList = function checkList(list) {
 							for (var i = 0; i < list.length; i++) {
 								if (list[i] === user_id) {
-									return false;
+									return i;
 								}
 							}
-							return true;
+							return 'User absent';
 						};
 						// add the new attendees to the list
 
@@ -115,14 +115,19 @@ app.post('/api/attend', function (req, res) {
 						if (bar.date !== today) {
 							bar.date = today;
 							bar.attendees = [];
-						}if (checkList(bar.attendees)) {
+						}if (checkList(bar.attendees) === 'User absent') {
 							bar.attendees.push(user_id);
 							bar.save(function (err) {
 								if (err) throw err;
 							});
 							res.end();
 						} else {
-							res.status(401).send("You can't attend the same bar twice!");
+
+							bar.attendees.splice(checkList(bar.attendees), 1);
+							bar.save(function (err) {
+								if (err) throw err;
+							});
+							res.end();
 						}
 					}
 					// if there is no bar at all create it and add user

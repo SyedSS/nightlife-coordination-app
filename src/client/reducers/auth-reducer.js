@@ -7,7 +7,10 @@ const defaultState = {
   loginError: '',
   registrationError: '',
   isFetching: false,
-  isAuthenticated: localStorage.getItem('id_token') ? true : false
+  user: '',
+  userID: '',
+  id_token: '',
+  isAuthenticated: false
 }
 
 const auth = (state = defaultState, action) => {
@@ -18,7 +21,7 @@ const auth = (state = defaultState, action) => {
       return Object.assign({}, state, {
         isFetching: true,
         isAuthenticated: false,
-        user: action.creds
+        user: action.user
       });
   
     case LOGIN_SUCCESS:
@@ -26,7 +29,10 @@ const auth = (state = defaultState, action) => {
         isFetching: false,
         isAuthenticated: true,
         loginError: '',
-        registrationError: ''
+        registrationError: '',
+        user: action.user,
+        userID: action.userID,
+        id_token: action.id_token
       });
   
     case LOGIN_FAILURE:
@@ -39,14 +45,16 @@ const auth = (state = defaultState, action) => {
     case LOGOUT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: true,
-        isAuthenticated: false
+        isAuthenticated: false,
+        user: '',
+        userID: '',
+        id_token: ''
       });
   
     case NEW_SIGNUP:
       return Object.assign({}, state, {
         isFetching: true,
-        isAuthenticated: false,
-        user: action.user
+        isAuthenticated: false
       });
 
     case REGISTRATION_ERROR:

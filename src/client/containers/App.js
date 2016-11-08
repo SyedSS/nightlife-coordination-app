@@ -28,7 +28,7 @@ class App extends Component {
   }
 }
 
-//These props come from the application's state when it is started
+// These props come from the application's state when it is started
 function mapStateToProps(state) {
 
   const isAuthenticated = state.auth.isAuthenticated;

@@ -18,15 +18,14 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.GITHUB_CALLBACK_PROD
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile)
     // search for user in database base on id = GitHub email address as unique identification
-    User.findOne({ id: profile.emails[0].value }, function(err, user) {
+    User.findOne({ id: profile.id }, function(err, user) {
       // handle error
       if (err) { return done(err) }
       // if there is no user with this email, create a new one
       if (!user) {
         user = new User({
-            id: profile.emails[0].value,
+            id: profile.id,
             displayName: profile.displayName,
             username: profile.username,
             password: '',
@@ -39,13 +38,6 @@ passport.use(new GitHubStrategy({
             return done(err, user);
         });
       // if user already has an account with this email, add their github ID  
-      } else if (profile.emails[0].value === user.id) {
-        user.githubId = profile.id
-        user.save(function(err) {
-            if (err) console.log(err);
-            return done(err, user);
-        });
-      // user has logged in before, return user and proceed
       } else {
           console.log('user,', user);
           return done(err, user);
@@ -73,13 +65,13 @@ passport.use(new TwitterStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     // search database based on twitter profile ID because twitter API does not provide email
-    User.findOne({ twitterId: profile.id }, function(err, user) {
+    User.findOne({ id: profile.id }, function(err, user) {
       //handle error
       if (err) { return done(err) }
       // if user has not logged in through twitter before, create a new user        
       if (!user) {
         user = new User({
-            id: '',
+            id: profile.id,
             displayName: profile.displayName,
             username: profile.username,
             password: '',
@@ -118,7 +110,7 @@ app.post('/verify', function(req, res) {
   if (req.isAuthenticated()) {
      res.status(201).send({
       id_token: createToken(req.user.username),
-      user_id: req.user.id,
+      userID: req.user.id,
       user: req.user.username
   });
   // if session is not authenticated redirect to login

@@ -81,6 +81,7 @@ app.post('/register', function (req, res) {
           if (err) console.log(err);
           res.status(201).send({
             username: userInfo.username,
+            userID: userInfo.email,
             id_token: createToken(userInfo.username)
           });
         });
@@ -98,6 +99,7 @@ app.post('/register', function (req, res) {
         console.log('user,', user);
         res.status(201).send({
           username: user.username,
+          userID: user.id,
           id_token: createToken(user.username)
         });
       }
@@ -115,31 +117,17 @@ app.post('/sessions/create', function (req, res) {
       password = _req$body.password;
 
 
-  MongoClient.connect(url, function (err, db) {
-    _assert2.default.equal(null, err);
+  _users2.default.findOne({ id: email }, function (err, user) {
+    if (user && _bcrypt2.default.compareSync(password, user.password)) {
 
-    var Users = db.collection('users');
+      res.status(201).send({
+        id_token: createToken(user.username),
+        userID: user.id,
+        user: user.username
+      });
+    } else if (!user) {
 
-    Users.findOne({ id: email }).then(function (data) {
-      // user does not exist in database
-      if (data === null) {
-        console.log('User does not exist');
-        res.status(401).send('User does not exist');
-        db.close();
-      }
-      // if user exists check if password is valid
-      else if (_bcrypt2.default.compareSync(password, data.password)) {
-          res.status(201).send({
-            id_token: createToken(data.username),
-            user: data.username
-          });
-          db.close();
-        }
-        // user exists but password was invalid
-        else {
-            res.status(401).send('Invalid login attempt');
-            db.close();
-          }
-    });
+      res.status(401).send('Invalid login attempt');
+    }
   });
 });

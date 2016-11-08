@@ -24,7 +24,9 @@ function receiveLogin(user) {
     type: LOGIN_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    id_token: user.id_token
+    id_token: user.id_token,
+    userID: user.userID,
+    user: user.user
   }
 }
 
@@ -43,13 +45,6 @@ export function checkAuth() {
       if (res.status === 201) {
 
           const user = res.data;
-
-          console.log(res.data);
-
-          // If login was successful, set the token in local storage
-          localStorage.setItem('user', user.user);
-          localStorage.setItem('user_id', user.user_id);
-          localStorage.setItem('id_token', user.id_token);
 
           // Dispatch the success action
           dispatch(receiveLogin(user))
@@ -76,11 +71,6 @@ export function loginUser(creds) {
       if (res.status === 201) {
 
           const user = res.data;
-
-          // If login was successful, set the token in local storage
-          localStorage.setItem('user', user.user)
-          localStorage.setItem('user_id', user.id)
-          localStorage.setItem('id_token', user.id_token)
 
           // Dispatch the success action
           dispatch(receiveLogin(user))
@@ -126,13 +116,9 @@ export function registerUser(user) {
 
       let user = {
         user: res.data.username,
+        userID: res.data.userID,
         id_token: res.data.id_token
       }
-
-      // Successful server response data is saved to local storage      
-      localStorage.setItem('user', user.user);
-      localStorage.setItem('user_id', user.email);
-      localStorage.setItem('id_token', user.id_token);
 
       // Login success action is dispatched
       dispatch(receiveLogin(user));

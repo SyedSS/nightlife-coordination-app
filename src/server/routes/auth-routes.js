@@ -46,6 +46,7 @@ app.post('/register', function(req, res) {
                     if (err) console.log(err);
                     res.status(201).send({
                       username: userInfo.username,
+                      userID: userInfo.email,
                       id_token: createToken(userInfo.username)
                     });
                 });
@@ -63,6 +64,7 @@ app.post('/register', function(req, res) {
                 console.log('user,', user);
                 res.status(201).send({
                     username: user.username,
+                    userID: user.id,
                     id_token: createToken(user.username)
                 });
             }
@@ -79,31 +81,19 @@ app.post('/sessions/create', function(req, res) {
 
   const { email, password } = req.body;
 
-  MongoClient.connect(url, (err, db) => {
-    assert.equal(null, err);
+  User.findOne({ id: email}, function(err, user) {
+    if (user && bcrypt.compareSync(password, user.password)) {
 
-    const Users = db.collection('users');
-    
-    Users.findOne( { id: email }).then( (data) => {
-      // user does not exist in database
-      if (data === null) {
-        console.log('User does not exist');
-        res.status(401).send('User does not exist');
-        db.close();
-      }
-      // if user exists check if password is valid
-      else if (bcrypt.compareSync(password, data.password)) {
         res.status(201).send({
-          id_token: createToken(data.username),
-          user: data.username
+          id_token: createToken(user.username),
+          userID: user.id,
+          user: user.username
         });
-        db.close();
-      }
-      // user exists but password was invalid
-      else {
-        res.status(401).send('Invalid login attempt')
-        db.close();
-      }
-    });
+
+    } else if (!user) {
+
+      res.status(401).send('Invalid login attempt')
+    
+    }
   });
 });

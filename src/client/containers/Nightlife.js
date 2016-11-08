@@ -12,7 +12,10 @@ import barStyles from '../theme/bar.scss'
 		isAuthenticated: state.auth.isAuthenticated,
 		searchResults: state.yelp.data,
 		isSearching: state.yelp.isSearching,
-		currentAttendance: state.yelp.attendance
+		currentAttendance: state.yelp.attendance,
+		user: state.auth.user,
+		userID: state.auth.userID,
+		token: state.auth.id_token
 	}),
 	dispatch => ({
 		searchYelp: bindActionCreators(searchYelp, dispatch),
@@ -21,6 +24,9 @@ import barStyles from '../theme/bar.scss'
 )
 class Nightlife extends React.Component {
 	static propTypes = {
+		user: React.PropTypes.string.isRequired,
+		userID: React.PropTypes.string.isRequired,
+		token: React.PropTypes.string.isRequired,
 		isAuthenticated: React.PropTypes.bool.isRequired,
 		isSearching: React.PropTypes.bool.isRequired,
 		searchResults: React.PropTypes.array.isRequired,
@@ -52,8 +58,8 @@ class Nightlife extends React.Component {
   attend(bar_id) {
   	const data = {
   		bar_id,
-  		user_id: localStorage.getItem('user_id'),
-  		token: localStorage.getItem('id_token'),
+  		user_id: this.props.userID,
+  		token: this.props.token,
   		location: localStorage.getItem('nightlife')
   	}
   	this.props.submitAttendance(data);
@@ -64,6 +70,7 @@ class Nightlife extends React.Component {
   }
  	render() {
  		const attendees = this.props.currentAttendance.slice();
+ 		const { userID } = this.props;
  		function countAttendees(barID) {
  			for (let i = 0; i < attendees.length; i++) {
  				if (attendees[i].id === barID) {
@@ -76,7 +83,7 @@ class Nightlife extends React.Component {
  			for (let i = 0; i < attendees.length; i++) {
  				if (attendees[i].id === barID) {
  					for (let j = 0; j < attendees[i].attendees.length; j++) {
- 						if (attendees[i].attendees[j] === localStorage.getItem('user_id')) {
+ 						if (attendees[i].attendees[j] === userID) {
  						 return true;
  						}
  					}
@@ -119,7 +126,7 @@ class Nightlife extends React.Component {
 					</div>
 
 					{ this.props.isAuthenticated && this.props.searchResults.length > 0 &&
-						<h2>Welcome {localStorage.getItem('user')}, here are the results for local bars <strong>{localStorage.getItem('nightlife')}</strong>.
+						<h2>Welcome {this.props.user}, here are the results for local bars in <strong>{localStorage.getItem('nightlife')}</strong>.
 						To change locations, submit a new search.</h2> }
 
 					{ localStorage.getItem('nightlife') && this.props.isSearching && 
